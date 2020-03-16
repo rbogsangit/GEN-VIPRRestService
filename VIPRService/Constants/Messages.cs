@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace VIPRService.Constants
 {
-    public static class ExceptionError
+    public static class Messages
     {
         public const string Unexpected_Error_Occurred = "Unexpected error occurred. Please try again.";
     }

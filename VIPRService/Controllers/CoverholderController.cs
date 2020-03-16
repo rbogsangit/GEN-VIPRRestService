@@ -41,7 +41,7 @@ namespace VIPRService.Controllers
             catch (Exception ex)
             {
                 LogHelper.Error(ex);
-                return StatusCode(StatusCodes.Status400BadRequest, ExceptionError.Unexpected_Error_Occurred);
+                return StatusCode(StatusCodes.Status400BadRequest, Messages.Unexpected_Error_Occurred);
             }
         }
     }
