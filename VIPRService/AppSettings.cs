@@ -10,5 +10,6 @@ namespace VIPRService
         public string CSVFolderName { get; set; }
         public string ConfigTemplateFolderName { get; set; }
         public string BatchFileTemplateFolderName { get; set; }
+        public string TaskRunnerPath { get; set; }
     }
 }

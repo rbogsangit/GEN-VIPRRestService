@@ -10,6 +10,7 @@ using VIPRService.Helpers;
 using VIPRService.Constants;
 using Microsoft.AspNetCore.Hosting;
 using VIPRService.Process;
+using VIPRService.Enums;
 
 namespace VIPRService.Controllers
 {
@@ -29,7 +30,7 @@ namespace VIPRService.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _dataImporter.Import(model);
+                    _dataImporter.Import(model, EnumImportType.Coverholder);
                     return Ok();
                 }
                 else

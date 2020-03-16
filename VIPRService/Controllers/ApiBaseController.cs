@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using VIPRService.Enums;
 
 namespace VIPRService.Controllers
 {
@@ -11,6 +12,6 @@ namespace VIPRService.Controllers
     [ApiController]
     public class ApiBaseController : ControllerBase
     {
-
+       
     }
 }

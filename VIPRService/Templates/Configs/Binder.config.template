@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- This is an example configuration file designed to be used as a starting point for Intarga Task configuration -->
+<!-- Do not modify this template as it can be overwritten by the deployment process at any time -->
+<Configuration>
+  <DisplayName>Binder Entity Update Example</DisplayName>
+  <AssemblyQualifiedName>VIPR.Tasks.EntityUpdate.Task, VIPR.Tasks.EntityUpdate</AssemblyQualifiedName>
+  <AssemblyPath>C:\VIPR\Intarga\2019.3.0.179-ArchInsurance\VIPR.Tasks\Tasks\EntityUpdate\VIPR.Tasks.EntityUpdate.dll</AssemblyPath> <!-- Assembly Path is not required in Intarga v2.3+-->
+  <CredentialUsername>vipr_administrator</CredentialUsername>
+  <ConnectionString>Server=AEIS-DWCSQLS006\D_SHARED_SQL_02;Initial Catalog=VIPR;MultipleActiveResultSets=True;Trusted_Connection=True;</ConnectionString>
+  <SourceConnectionString>FAILFAST</SourceConnectionString>
+  <AccessMode>Csv</AccessMode>
+  <FilePath>{CSVFilePath}</FilePath>
+  <MoveLocation></MoveLocation>  <!-- Optional location to move the source file to after import (Intarga v2.3+) -->
+  <AfterTasks>
+    <Task type="StoredProcedure" skipOnErrors="false">
+      <StoredProcedureName>[dbo].[sync_AllData]</StoredProcedureName>
+      <Parameters>
+        <Parameter>
+          <Name>sp_AfterTask</Name>
+          <DataType>VarChar</DataType>
+          <Value>BINDER001</Value>
+        </Parameter>
+      </Parameters>
+    </Task>
+  </AfterTasks>
+  <Mapping entityType="Intarga.Domain.Binder, Intarga.Domain" />
+  <Maps>
+    <!-- Native Properties (ie, fields that existing in the Binders table in the database -->
+    <Map target="UniqueKey" source="RiskRefId" isKey="true" isRequired="true"></Map>
+    <Map target="Umr" source="UMR" isRequired="true" ></Map>
+    <Map target="Coverholder.InternalRef" source="UniqueClientKey" isRequired="true"></Map>
+    <Map target="PreviousPeriod.Umr" source="NewRenewal" isKey="true">
+      <Cases>
+        <Case matchType="Expression">
+          <When>R</When>
+          <ThenCombine>
+            <Part>UMR</Part>
+            <Part>[: Dummy]</Part>
+          </ThenCombine>
+        </Case>
+        <Case>
+          <Else>[NULL]</Else>
+        </Case>
+      </Cases>
+    </Map>
+	<Map target="PreviousPeriod.IsDraft" defaultValue="true"></Map>
+    <Map target="PreviousPeriod.Coverholder" source="$Coverholder"></Map>
+	<!-- Attributes -->
+    <!--Map target="[Binder Common].[Policy Entry Date]" source="PolicyEntryDate"></Map>
+    <Map target="[Binder Common].[Year Of Account]" source="YOA"></Map>
+    <Map target="[Binder Common].[Policy Status]" source="Status"></Map>
+    <Map target="[Binder Common].[Broker Reference]" source="BrokerReference"></Map>
+    <Map target="[Binder Common].[Total Deductions %]" source="TotalDeductionsPer"></Map>
+    <Map target="[Binder Common].[Placing Code]" source="PlacingCode"></Map>
+    <Map target="[Binder Common].[Placing Type]" source="PlacingType"></Map>
+    <Map target="[Binder Common].[Written Line %]" source="WrittenLinePer"></Map>
+    <Map target="[Binder Common].[Signed Line %]" source="SignedLinePer"></Map>
+    <Map target="[Binder Common].[Settlement Due Date]" source="SettlementDueDate"></Map>
+    <Map target="[Binder Common].[Class Code]" source="ClassCode"></Map>
+    <Map target="[Binder Common].[Original Inception Date]" source="OriginalDate"></Map>
+    <Map target="[Binder Common].[Slip Lead]" source="SlipLeadName"></Map-->
+  </Maps>
+  <Exposes>
+    <Expose target="Coverholder" />
+  </Exposes>
+  <EntityConfigurations>
+    <EntityConfiguration entityType="VIPR.Admin.Domain.Country, VIPR.Admin.Domain" noCreate="true" noUpdate="true" />
+    <EntityConfiguration entityType="VIPR.Admin.Domain.Currency, VIPR.Admin.Domain" noCreate="true" noUpdate="true" />
+    <EntityConfiguration entityType="Intarga.Domain.Binder, Intarga.Domain" noCreate="false" noUpdate="false" exceptionProperties="PreviousPeriod" reportProperties="UMR, SlipNumber, BrokerName, Underwriter, InceptionDate, ExpiryDate" />
+  </EntityConfigurations>
+</Configuration>

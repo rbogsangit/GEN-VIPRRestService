@@ -11,11 +11,11 @@ namespace VIPRService.Helpers
 {
     public static class FileHelper
     {
-        public static string CreateCSV(string baseFolderPath, CSVModel model)
+        public static string CreateCSV(string currentFolderPath, CSVModel model, string fileName)
         {
-            var csvFilePath = Path.Combine(baseFolderPath, $"{model.LegalName}_{model.InternalRef}.csv");
+            var csvFilePath = Path.Combine(currentFolderPath, $"{fileName}.csv");
 
-            using (var writer = new StreamWriter(csvFilePath))
+            using (var writer = new StreamWriter(csvFilePath, false))
             {
                 using (var csv = new CsvWriter(writer, CultureInfo.InvariantCulture))
                 {

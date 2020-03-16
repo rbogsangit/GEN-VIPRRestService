@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- This is an example configuration file designed to be used as a starting point for Intarga Task configuration -->
+<!-- Do not modify this template as it can be overwritten by the deployment process at any time -->
+<Configuration>
+  <DisplayName>Coverholder Entity Update Example</DisplayName>
+  <AssemblyQualifiedName>VIPR.Tasks.EntityUpdate.Task, VIPR.Tasks.EntityUpdate</AssemblyQualifiedName>
+  <AssemblyPath>C:\VIPR\Intarga\2019.3.0.179-ArchInsurance\VIPR.Tasks\Tasks\EntityUpdate\VIPR.Tasks.EntityUpdate.dll</AssemblyPath> <!-- Assembly Path is not required in Intarga v2.3+-->
+  <CredentialUsername>vipr_administrator</CredentialUsername>
+  <ConnectionString>Server=AEIS-DWCSQLS006\D_SHARED_SQL_02;Initial Catalog=VIPR;MultipleActiveResultSets=True;Trusted_Connection=True;</ConnectionString>
+  <SourceConnectionString>FAILFAST</SourceConnectionString>
+  <AccessMode>Csv</AccessMode>
+  <FilePath>G:\Projects\Arch\VIPR.API\VIPRService\CSVFiles\Albus Underwriter_11111111\Albus Underwriter_11111111.csv</FilePath>
+  <MoveLocation></MoveLocation>  <!-- Optional location to move the source file to after import (Intarga v2.3+) -->
+  <AfterTasks>
+    <Task type="StoredProcedure" skipOnErrors="false">
+      <StoredProcedureName>[dbo].[sync_AllData]</StoredProcedureName>
+      <Parameters>
+        <Parameter>
+          <Name>sp_AfterTask</Name>
+          <DataType>VarChar</DataType>
+          <Value>BINDER001</Value>
+        </Parameter>
+      </Parameters>
+    </Task>
+  </AfterTasks>
+  <Mapping entityType="Intarga.Domain.Coverholder, Intarga.Domain" />
+  <Maps>
+	<!-- Native Properties (ie, fields that existing in the Coverholders table in the database -->
+    <Map target="LegalName" isKey="true" source="CoverHolderName" isRequired="true"></Map>
+    <Map target="InternalRef" isKey="true" source="UniqueClientKey" isRequired="true"></Map>
+    <Map target="UseParentFinancials" isKey="true" source="UseParentFinancials" isRequired="true"></Map>
+  </Maps>
+  <Exposes>
+  </Exposes>
+  <EntityConfigurations>
+    <EntityConfiguration entityType="Intarga.Domain.Coverholder, Intarga.Domain" noCreate="false" noUpdate="false" />
+  </EntityConfigurations>
+</Configuration>
